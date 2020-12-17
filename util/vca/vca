@@ -1,0 +1,153 @@
+#!/bin/bash
+
+
+function debug_file
+{
+	clear
+	debug="$1/debug.c"
+	header=$(printf $2 | cut -c 8-)
+
+	if test -f $debug; then
+		echo $debug exist | cut -c 22-
+	fi
+	if [[ $3 == "-fc" ]]; then
+		rm    $1/debug.c
+		touch $1/debug.c
+		# headers
+		echo -e "#include <stdio.h>\n#include <unistd.h>"									>> $debug
+		echo -e "#include <string.h>\n#include <stdlib.h>"									>> $debug
+		echo -e "#include \"$header\"\n"													>> $debug
+		# declarations
+		echo -e "$(grep 'void\t.*(\|int\t\t.*(\|float\t.*\|char.*'  $2 | grep -v ';');\n"	>> $debug
+		# main function
+		echo -e "void	ft_putchar(char c) \n{\n\twrite(1, &c, 1);\n}\n"					>> $debug
+		echo -e "int\t\tmain(void)\n{\n\t\t\n\t\n\n\n\t\n\treturn (0);\n}"					>> $debug
+	fi
+}
+
+#--           private functions
+
+
+function initiate
+{
+	clear
+	if test -f "$1/vca"; then
+		rm "$1/vca"
+		echo "vca location: " $1
+	fi
+	cp "$(pwd)/vca" $1
+}
+
+function norm_pass
+{
+	clear
+	echo "norm processing .."
+	for d in $(find . -type d -name "ex*"); do
+		for f in $(find $d -type f -not -name "debug*"); do
+			echo "--------------- norn -------------------"
+			echo "Dir:  "$d
+			norminette -R CheckForbiddenSourceHeader $f
+	 		echo -e "-------------------\n"
+		done
+	done
+}
+
+function gcc_pass
+{
+	clear
+	echo "gcc processing .."
+	for d in $(find . -type d -name "ex*")
+	do
+		for f in $(find $d -type f -not -name "debug*")
+		do
+			echo "--------------- gcc ------------------"
+			echo "Dir:  "$d
+			echo "File: "$f
+			if [[ $1 == "-fc" || $1 == "-c" ]]; then 
+				debug_file $d $f $1 #[-fcom]
+			else
+				gcc -Wall -Wextra -Werror "$d/debug.c" -o "$d/debug" 
+				echo "[programm result]: "
+				$d/debug
+				echo -e '\n'
+				echo -e "\n--------------------\n"
+			fi
+		done
+	done
+}
+
+function git_pass
+{
+	clear
+	echo "git processing .."
+
+	repo=$1
+	usr=$(echo $repo | awk -F "/" '{ print $NF }')
+
+	echo "[usr]  "$usr
+	git clone $repo
+
+	# copy `ex*` into git repo	
+	for d in $(find . -type d -maxdepth 4 -name "ex*"); do
+		echo "dir:  " $d
+		cp -rf $d $usr		
+	done
+	
+	echo 'git add .'
+	cd $usr
+	git add .
+
+	echo "[usr & DIR]$usr"
+	echo "current dir: " $(pwd)
+	for d in $(find . -type d -name "ex*"); do
+		rm $d/debug.c
+		rm $d/debug
+		git commit -m "$d" $d
+		echo "Dir: " $d  
+	done
+	
+	git log
+	git push
+	
+	cd ..
+	# rm -rf $usr
+}
+
+
+
+
+usage() {
+	echo "Usage: ./vca cmd"
+	echo "norm: check code through norminatte"
+	echo "gcc : check code through gcc and build programm"
+	echo "gti : upload prj into github"
+	echo "-i  : init local code organization"
+}
+
+newbrn2_add()
+{
+	echo "add()"
+}
+
+newbrn2_add2()
+{
+	echo "add2()"
+}
+
+newbrn3_func()
+{
+	echo "newbrn2_func()"
+}
+
+
+if   [[ $1 == "norm" ]]; then
+	norm_pass
+elif [[ $1 == "gcc" ]]; then
+	gcc_pass $2
+elif [[ $1 == "git" ]]; then
+	git_pass $2
+elif [[ $1 == '-i' ]]; then
+	initiate $2
+else
+	usage
+fi
