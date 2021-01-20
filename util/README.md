@@ -1,13 +1,7 @@
-<p float="left">
-  <img src="doc/wd.jpg" width="243" />
-  <img src="doc/school21.jpg" width="310" />
-</p>
+### Util
 
-# Utils: wd vca
-
-***Description:*** <br/>
-  Here are list of usefull utils in regular dayly basis. More details about them, how to build, use, install, etc can be found in subdirs with associate names.
-  
-  
-  
-  
+This project will mostly contain GNU utils which I master and can provide
+some explanation how to build code, how it works, etc. I had and even now
+have problem that I don't understand someone's code and here and wanna help
+people with problem understand essentials of most useable code of GNU and
+other open source projects.
