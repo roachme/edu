@@ -36,7 +36,7 @@ static int check_row(int idx)
 
 void db_init(void)
 {
-	dev_open("table.db", "r+");
+	dev_open("data/table.db", "r+");
 
 	/* init row_count */
 	row_count = dev_row_count();

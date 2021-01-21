@@ -1,11 +1,11 @@
-SRCS := $(wildcard src/*.cpp)
-OBJS := $(patsubst src/%.cpp, obj/%.o, $(SRCS))
+SRCS   := $(wildcard src/*.c)
+OBJS   := $(patsubst src/%.c, obj/%.o, $(SRCS))
 RM     := rm -rf
 PRJ    := simdb
 
 CFLAGS := -I inc -Wall
 LFLAGS := -lm
-CC     := g++
+CC     := gcc
 
 
 all: $(PRJ)
@@ -15,16 +15,13 @@ init:
 	test -e obj  || mkdir obj
 	test -e data || mkdir data
 	test -e src  || mkdir src
-	test -e bin  || mkdir bin
-
-
 
 
 $(PRJ): $(OBJS)
 	$(CC) $^ -o $@
 
 
-obj/%.o: src/%.cpp
+obj/%.o: src/%.c
 	$(CC) -fpic -c $< -o $@ $(CFLAGS)
 
 _clean:

@@ -12,7 +12,7 @@ function struct()
 
 function search()
 {
-	SWORD="[+]"
+	SWORD="table.db"
 	for f in $(find . -type f -name '*'); do 
 		cat $f | grep $SWORD
 		if [[ $? -eq 0 ]];then
@@ -31,3 +31,4 @@ function dilemma() {
 	done
 }
 
+search
