@@ -59,8 +59,6 @@ void proc_view(struct node *node)
 
 
 
-
-
 /* expr */ 
 
 int ast_expr(struct node *node) {
@@ -116,4 +114,6 @@ int ast_expr(struct node *node) {
 		}
 		break;
 	}
+
+	return 1;
 }

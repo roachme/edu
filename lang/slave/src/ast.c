@@ -1,14 +1,6 @@
 #include "ast.h"
 
 
-
-
-
-
-
-
-
-
 struct node *generate_ast(Tokens *toks)
 {
 	// init
@@ -30,6 +22,9 @@ struct node *generate_ast(Tokens *toks)
 	int count = i;
 	for (int i = 0; i < count; ++i)
 		proc_view(node[i]);
+
+	printf("[!]  Ruturn NULL value: generate_ast\n");
+	return (NULL);
 }
 
 

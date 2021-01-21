@@ -7,54 +7,40 @@ struct node *macrostruct()
 {
 	if (!strcmp(token->value, "import"))
 	{
-		return import();
+		//return import();
 	}
 
 	else if (!strcmp(token->value, "class"))
 	{
-		return tclass();
+		//return tclass();
 	}
 
 	else if (!strcmp(token->value, "proc"))
 	{
-		return proc();
+		//return proc();
 	}
 	
 	else if (!strcmp(token->value, "struct"))
 	{
-		return tstruct();
+		//return tstruct();
 	}
 
 	else if (!strcmp(token->value, "union"))
 	{
-		return tunion();
+		//return tunion();
 	}
 
 	else
 	{
 		return microstruct(0);
 	}
+	return (NULL);
 }
 
-struct node *import()
-{
-
-}
-
-struct node *tclass()
-{
-
-}
-
-struct node *tstruct()
-{
-	
-}
-	
-struct node *tunion()
-{
-	
-}
+struct node *import();
+struct node *tclass();
+struct node *tstruct();
+struct node *tunion();
 
 struct node *proc()
 {
@@ -102,10 +88,7 @@ struct node **get_fparam(int *argc)
 	return node;
 }
 
-struct node **get_aparam(int *argc)
-{
-
-}
+struct node **get_aparam(int *argc);
 
 
 
@@ -205,27 +188,27 @@ struct node *instruction()
 {
 	if (!strcmp(token->value, "if"))
 	{
-		return iif();
+		//return iif();
 	}
 
 	else if (!strcmp(token->value, "elif"))
 	{
-		return ielif();
+		//return ielif();
 	}
 
 	else if (!strcmp(token->value, "else"))
 	{
-		return ielse();
+		//return ielse();
 	}
 
 	else if (!strcmp(token->value, "for"))
 	{
-		return ifor();
+		//return ifor();
 	}
 
 	else if (!strcmp(token->value, "while"))
 	{
-		return iwhile();
+		//return iwhile();
 	}
 
 	else if ((tokens->token[pos+1].type == T_ID) || 
@@ -238,32 +221,15 @@ struct node *instruction()
 	{
 		return assignment();
 	}
+
+	return (NULL);
 }
 
-struct node *iif()
-{
-
-}
-
-struct node *ielif()
-{
-	
-}
-
-struct node *ielse()
-{
-	
-}
-
-struct node *ifor()
-{
-	
-}
-
-struct node *iwhile()
-{
-	
-}
+struct node *iif();
+struct node *ielif();
+struct node *ielse();
+struct node *ifor();
+struct node *iwhile();
 
 struct node *assignment()
 {

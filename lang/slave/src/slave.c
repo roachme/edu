@@ -47,7 +47,9 @@ int main()
 
 
 	struct node *ast = generate_ast(tokens);
-
+	if (ast == NULL) {
+		printf("[*] Done\n");
+	}
 
 
 	return (0);

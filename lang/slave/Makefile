@@ -1,21 +1,26 @@
-SRC=$(wildcard src/*.c)
-OBJ=$(patsubst src/%.c, obj/%.o, $(SRC))
-CFLAGS=-I inc
+SRCS   := $(wildcard src/*.c)
+OBJS   := $(patsubst src/%.c, obj/%.o, $(SRCS))
+RM     := rm -rf
+PRJ    := slave
+
+CFLAGS := -I inc -Wall
+LFLAGS := -lm
+CC     := gcc
 
 
-all: slave
+
+all: $(PRJ)
+
+$(PRJ): $(OBJS)
+	$(CC) $^ -o $@
 
 obj/%.o: src/%.c
-	@gcc -c $< -o $@ $(CFLAGS)
-
-slave: $(OBJ)
-	@gcc  $^ -o $@
-	./$@
+	$(CC) -c $< -o $@ $(CFLAGS)
 
 
 clean:
 ifeq (slave, $(wildcard slave))
-	@rm -rf obj/*.o slave
+	$(RM) obj/* slave
 	clear
 else
 	clear
