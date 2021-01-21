@@ -12,7 +12,7 @@ proc main[int argc, string argv]:
 
 	int num;
 	float num2;
-	char arr[3][45];
+	#char arr[3][45];
 	#string **ptr;
 
 	#res = 3 + 3 / 4;

@@ -17,7 +17,7 @@ struct node *macrostruct()
 
 	else if (!strcmp(token->value, "proc"))
 	{
-		//return proc();
+		return proc();
 	}
 	
 	else if (!strcmp(token->value, "struct"))
