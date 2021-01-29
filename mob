@@ -4,7 +4,9 @@ clear
 lazypush()
 {
 	git add .
-	git commit -m '[*] lazy commit'
+	printf "commit: "
+	read comm
+	git commit -m "$comm"
 	git push
 }
 
