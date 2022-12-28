@@ -1,0 +1,14 @@
+create
+table1
+str name, int age
+add
+"Sam", 10
+add
+"Jake", 20
+add
+"Jim", 32
+show
+delete
+1
+show
+exit
