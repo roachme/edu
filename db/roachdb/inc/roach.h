@@ -10,7 +10,8 @@
 
 
 #define BUFFER_SIZE   256
-#define DELIMITER     ", "
+#define DELIMITER_TITLE       ", "
+#define DELIMITER             ","
 
 #define COLUMN_SIZE   10
 #define TABLE_SIZE    20

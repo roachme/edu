@@ -1,14 +1,12 @@
 create
 table1
-str name, int age
+str name, int age, str phone
 add
-"Sam", 10
+"Sam Pocket", 10, "+1 3234234"
 add
-"Jake", 20
+"Jake", 20, "+1 2324234"
 add
-"Jim", 32
+"Jim", 32, "+1 23323423"
 show
-delete
-1
-show
+export
 exit

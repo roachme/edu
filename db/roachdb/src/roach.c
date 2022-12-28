@@ -1,6 +1,7 @@
 #include "roach.h"
 #include "utils.h"
 #include "disk.h"
+#include "output.h"
 
 #define COMMANDS_SIZE (sizeof (commands) / sizeof (commands[0]))
 
@@ -28,6 +29,7 @@ static void (*dbcmds[COMMANDS_SIZE]) (void) = {
 
 static table_t table;
 
+
 static void
 usage (void)
 {
@@ -54,59 +56,28 @@ db_create_table (void)
   strcpy (table.name, buff);
 
   buff = get_input ("Table declaration: ");
-  token = strtok (buff, DELIMITER);
+  token = strtok (buff, DELIMITER_TITLE);
   while (token) {
     if (strcmp (token, "int") == 0) {
-      token = strtok (NULL, DELIMITER);
+      token = strtok (NULL, DELIMITER_TITLE);
       value_array_add_title (&table.title, token, TYPE_INT);
     }
     else if (strcmp (token, "str") == 0) {
-      token = strtok (NULL, DELIMITER);
+      token = strtok (NULL, DELIMITER_TITLE);
       value_array_add_title (&table.title, token, TYPE_STR);
     }
-    token = strtok (NULL, DELIMITER);
+    token = strtok (NULL, DELIMITER_TITLE);
     ++width;
   }
   table.width = width;
 }
 
-static void
-show_title (value_array_t *title)
-{
-  for (int i = 0; i < title->count; ++i) {
-    printf("%s %s\t\t",
-           title->values[i].type == TYPE_INT ? "int" : "str", 
-           title->values[i].val_s);
-  }
-  printf("\n");
-}
 
-static void
-show_content (value_array_t *content, int count, int width)
-{
-  for (int i = 0; i < count; ++i) {
-
-    for (int j = 0; j < width; ++j) {
-      switch (content[i].values[j].type) {
-        case TYPE_INT:
-          printf("%d\t\t", content[i].values[j].val_i);
-          break;
-        case TYPE_STR:
-          printf("%s\t\t", content[i].values[j].val_s);
-          break;
-        default:
-          db_error ("wrong data type");
-      }
-    }
-    printf("\n");
-  }
-}
 
 void
 db_show_table (void)
 {
-  show_title (&table.title);
-  show_content (table.content, table.count, table.width);
+  output_table (&table);
 }
 
 void
@@ -253,7 +224,6 @@ main (int argc, const char **argv)
       return 1;
     }
   }
-
 
   // cli mode
   table_init (&table);

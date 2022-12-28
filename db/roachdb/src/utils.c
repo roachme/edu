@@ -3,10 +3,27 @@
 
 #include "utils.h"
 
+char *cut_padding (char *str)
+{
+  char *beg = str;
+  char *end = str + strlen (str) - 1;
+
+  // trim whitespaces in the beginning
+  while (*beg && *beg == ' ')
+    ++beg;
+
+  // trim whitespaces and newline in the end
+  end = str + strlen (str) - 1;
+  while (end > beg && (*end == ' ' || *end == '\n')) {
+    --end;
+  }
+  *(end+1) = '\0';
+  return beg;
+}
 
 int isnumber (char *num)
 {
-  char *ptr = num;
+  char *ptr = cut_padding (num);
 
   if (*ptr == '-') {
     ++ptr;
@@ -23,7 +40,7 @@ int isnumber (char *num)
 
 int isstring (char *str)
 {
-  char *ptr = str;
+  char *ptr = cut_padding (str);
 
   if (*ptr == '"')
     ++ptr;
@@ -41,7 +58,7 @@ int isstring (char *str)
 int tonumber (char *num)
 {
   int sign = 1;
-  char *ptr = num;
+  char *ptr = cut_padding (num);
   int res = 0;
 
   if (*ptr == '-') {
@@ -57,27 +74,43 @@ int tonumber (char *num)
 }
 
 
+int
+max (int a, int b)
+{
+  return a > b ? a : b;
+}
+
+int
+number_length (int num)
+{
+  int length = 0;
+
+  while (num) {
+    num /= 10;
+    ++length;
+  }
+  return length;
+}
+
+void
+show_array (int *arr, int size)
+{
+  for (int i = 0; i < size; ++i) {
+    printf("%d\n", arr[i]);
+  }
+}
+
 char
 *get_input (const char *prompt)
 {
   char buff[BUFFER_SIZE];
-  char *beg = buff, *end;
+  char *ptr = buff;
 
   printf("%s", prompt);
   fgets (buff, BUFFER_SIZE, stdin);
 
-  // trim whitespaces in the beginning
-  while (*beg && *beg == ' ')
-    ++beg;
-
-  // trim whitespaces and newline in the end
-  end = buff + strlen (buff) - 1;
-  while (end > beg && (*end == ' ' || *end == '\n')) {
-    --end;
-  }
-  *(end+1) = '\0';
-
-  return strdup (beg);
+  ptr = cut_padding (buff);
+  return strdup (ptr);
 }
 
 void
@@ -114,6 +147,7 @@ value_array_add (value_array_t *row, char *value, type_t type)
       if (!isstring (value)) {
         db_error ("wrong formatted string value");
       }
+      value = cut_padding (value);
       strcpy (row->values[row->count].val_s, value);
       row->values[row->count].type = TYPE_STR;
       break;
